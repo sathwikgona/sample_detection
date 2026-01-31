@@ -1,6 +1,7 @@
 from fastapi import FastAPI, UploadFile, File, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
+import os
 
 from utils.image_detector import predict_image
 from utils.video_detector import predict_video
@@ -47,5 +48,7 @@ async def camera_ws(websocket: WebSocket):
 async def mic_ws(websocket: WebSocket):
     await handle_mic_stream(websocket)
 
+
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
